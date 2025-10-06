@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+const API_URL = "https://movie-booking-8v67.onrender.com/api";
 
 export const signupUser = async (data) => {
   const res = await fetch(`${API_URL}/auth/signup`, {
