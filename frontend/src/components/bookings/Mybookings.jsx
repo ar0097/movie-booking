@@ -64,7 +64,13 @@ function Mybookings() {
                 className={`booking-time-button ${
                   showtime === ele && "active"
                 }`}
-                onClick={() => setShowtime(ele)}
+                onClick={() => {
+                  if (showtime === ele) {
+                    setShowtime("");
+                  } else {
+                    setShowtime(ele);
+                  }
+                }}
               >
                 {ele}
               </button>
