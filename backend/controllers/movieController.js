@@ -1,6 +1,5 @@
 const Movie = require("../models/Movie");
 
-// Get all movies
 const getMovies = async (req, res) => {
     try {
         const movies = await Movie.find();

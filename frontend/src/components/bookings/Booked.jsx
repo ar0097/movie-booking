@@ -4,7 +4,6 @@ import { bookedSeats } from "../../api";
 function Booked() {
   const [movie, setMovie] = useState([]);
 
-  console.log("wdcs", movie);
 
   useEffect(() => {
     bookedSeats().then((data) => setMovie(data));

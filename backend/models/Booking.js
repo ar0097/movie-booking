@@ -19,7 +19,7 @@ const bookingSchema = new mongoose.Schema(
             required: true,
         },
         price: {
-            type: Number,  // new field
+            type: Number,  
             required: true,
         },
     },

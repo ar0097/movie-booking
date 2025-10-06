@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* padding: 1rem; */
 }
 
 .login-wrapper {
@@ -85,7 +84,6 @@
 }
 
 .form-input {
-  /* width: 100%; */
   padding: 0.5rem 1rem;
   background-color: #333b4d;
   border: 1px solid #333b4d;
@@ -95,8 +93,6 @@
 
 .form-input:focus {
   outline: none;
-  /* border: 2px;
-  border: hsl(0 72% 51%); */
 }
 
 .submit-button {

@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
 
-// @route   POST /api/bookings
-// @desc    Create or update booking (merge new seats into existing)
+
 router.post("/", async (req, res) => {
     try {
         const { movieName, showtime, date, seats, price } = req.body;
@@ -12,11 +11,9 @@ router.post("/", async (req, res) => {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
-        // Find if a booking already exists for this movie, showtime, and date
         const existingBooking = await Booking.findOne({ movieName, showtime, date });
 
         if (existingBooking) {
-            // Merge new seats with existing ones (no duplicates)
             const mergedSeats = Array.from(
                 new Set([...existingBooking.seats, ...seats])
             );
@@ -30,7 +27,6 @@ router.post("/", async (req, res) => {
                 booking: existingBooking,
             });
         } else {
-            // If no booking exists, create a new one
             const newBooking = new Booking({ movieName, showtime, date, seats, price });
             await newBooking.save();
 
@@ -45,8 +41,6 @@ router.post("/", async (req, res) => {
     }
 });
 
-// @route   GET /api/bookings
-// @desc    Get all bookings
 router.get("/", async (req, res) => {
     try {
         const bookings = await Booking.find().sort({ createdAt: -1 });

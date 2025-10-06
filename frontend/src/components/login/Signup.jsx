@@ -99,4 +99,3 @@ const Signup = () => {
 
 export default Signup;
 
-// https://preview--simple-movie-seat-go.lovable.app/

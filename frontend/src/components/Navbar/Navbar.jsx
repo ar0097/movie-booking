@@ -1,7 +1,14 @@
 import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
   return (
     <div className="navbar">
       <div className="navbar-container">
@@ -15,7 +22,9 @@ function Navbar() {
           <Link to="/my-bookings" style={{ textDecoration: "none" }}>
             <p className="same">My Bookings</p>
           </Link>
-          <p className="same">Logout</p>
+          <p className="same" onClick={handleLogout}>
+            Logout
+          </p>
         </div>
       </div>
     </div>

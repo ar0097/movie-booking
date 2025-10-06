@@ -32,9 +32,6 @@ function Mybookings() {
       setSelectedSeats((prev) => prev.filter((s) => s !== row + num));
       setPrice((selectedSeats.length - 1) * 12);
     }
-    console.log("fadgfdfgdf", (selectedSeats.length + 1) * price);
-
-    // setSelectedSeats((prev) => [...prev, row + num]);
   };
 
   const confirmBooking = () => {
