@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import { bookedSeats } from "../../api";
+import { Link } from "react-router-dom";
 function Booked() {
   const [movie, setMovie] = useState([]);
-
 
   useEffect(() => {
     bookedSeats().then((data) => setMovie(data));
@@ -17,9 +17,9 @@ function Booked() {
           {movie.length === 0 ? (
             <div className="booked-status">
               <p className="booked-status-para">No bookings yet</p>
-              <a href="#" className="book-movies">
+              <Link to="/movies" className="book-movies">
                 Browse Movies
-              </a>
+              </Link>
             </div>
           ) : (
             movie.map((ele, id) => (
