@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Bookings.css";
 import Navbar from "../Navbar/Navbar";
-import { bookSeats, getMoviesById } from "../../api";
+import { bookedSeats, bookSeats, getMoviesById } from "../../api";
 import { useParams } from "react-router-dom";
 
 const seats = {
@@ -12,17 +12,36 @@ const seats = {
   E: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   F: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 };
+
 function Mybookings() {
   const [showtime, setShowtime] = useState("Select Showtime");
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [movie, setMovie] = useState({});
-  const [price, setPrice] = useState(12);
+  const [price, setPrice] = useState(0);
+  const [booked, setBooked] = useState([]);
+  const [getData, setGetData] = useState([]);
+
+  useEffect(() => {
+    if (movie.showtimes && movie.showtimes.length > 0) {
+      setShowtime(movie.showtimes[0]);
+    }
+    const movieBookings = booked.filter(
+      (b) => b.movieName === movie.title && b.showtime === movie.showtimes[0]
+    );
+    setGetData(movieBookings);
+  }, [booked, movie]);
+
+  console.log("booked", getData);
 
   const { id } = useParams();
 
   useEffect(() => {
     getMoviesById(id).then((data) => setMovie(data));
   }, [id]);
+
+  useEffect(() => {
+    bookedSeats().then((data) => setBooked(data));
+  }, []);
 
   const handleSeats = (row, num) => {
     if (!selectedSeats.includes(row + num)) {
@@ -59,16 +78,26 @@ function Mybookings() {
         <div className="bookings-times">
           <h1 className="booking-select-time">Select Showtime</h1>
           <div className="booking-time-cards">
-            {movie.showtimes?.map((ele) => (
+            {movie.showtimes?.map((ele, id) => (
               <button
+                key={id}
                 className={`booking-time-button ${
                   showtime === ele && "active"
-                }`}
+                } `}
                 onClick={() => {
                   if (showtime === ele) {
-                    setShowtime("");
+                    setShowtime("Select Showtime");
+                    const movieBookings = booked.filter(
+                      (b) => b.movieName === movie.title
+                    );
+                    setGetData(movieBookings);
                   } else {
                     setShowtime(ele);
+                    const filtered = booked.filter(
+                      (item) =>
+                        item.movieName === movie.title && item.showtime === ele
+                    );
+                    setGetData(filtered);
                   }
                 }}
               >
@@ -84,16 +113,29 @@ function Mybookings() {
               <div className="booking-seat-head">SCREEN</div>
             </div>
             <div className="booking-seat-arrangement">
-              {Object.entries(seats).map(([row, numbers]) => (
-                <div className="booking-seat-row">
+              {Object.entries(seats).map(([row, numbers], id) => (
+                <div className="booking-seat-row" key={id}>
                   <span className="row">{row}</span>
                   <div className="row-number">
                     {numbers.map((num, id) => (
                       <button
+                        key={id}
                         className={`row-number-button ${
                           selectedSeats.includes(row + num) && "active"
+                        } ${
+                          getData?.some((b) => b.seats.includes(row + num))
+                            ? "active"
+                            : ""
                         }`}
-                        onClick={() => handleSeats(row, num)}
+                        onClick={() => {
+                          if (
+                            getData?.some((b) => b.seats.includes(row + num))
+                          ) {
+                            alert("already booked");
+                          } else {
+                            handleSeats(row, num);
+                          }
+                        }}
                       >
                         {num}
                       </button>
