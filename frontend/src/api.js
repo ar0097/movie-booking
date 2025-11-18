@@ -1,4 +1,4 @@
-const API_URL = "https://movie-booking-8v67.onrender.com/api";
+const API_URL = "https://movies-backend-hazel.vercel.app/api";
 
 export const signupUser = async (data) => {
   const res = await fetch(`${API_URL}/auth/signup`, {

@@ -7,8 +7,8 @@ Users can sign up, log in, browse available movies, make bookings, and view thei
 
 ## 🚀 Live Links
 
-- **Frontend:** [https://movie-booking-five-sooty.vercel.app](https://movie-booking-five-sooty.vercel.app/my-bookings)  
-- **Backend API Base URL:** [https://movie-booking-8v67.onrender.com/api](https://movie-booking-8v67.onrender.com/api)
+- **Frontend:** [https://movie-booking-five-sooty.vercel.app](https://movie-booking-five-sooty.vercel.app)  
+- **Backend API Base URL:** [https://movies-backend-hazel.vercel.app/api](https://movies-backend-hazel.vercel.app/api)
 
 ---
 
