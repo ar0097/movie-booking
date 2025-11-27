@@ -17,6 +17,7 @@ const Login = () => {
     const data = await loginUser(form);
     if (data.token) {
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user.name));
       setMessage("Login successful!");
       setForm({ email: "", password: "" });
       navigate("/movies");
@@ -91,4 +92,3 @@ const Login = () => {
 };
 
 export default Login;
-

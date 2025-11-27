@@ -20,6 +20,17 @@ function Mybookings() {
   const [price, setPrice] = useState(0);
   const [booked, setBooked] = useState([]);
   const [getData, setGetData] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [message, setMessage] = useState("");
+  console.log("userName", userName);
+
+  useEffect(() => {
+    const name = JSON.parse(localStorage.getItem("user"));
+    if (name) {
+      setUserName(name);
+    }
+  }, []);
 
   useEffect(() => {
     if (movie.showtimes && movie.showtimes.length > 0) {
@@ -34,6 +45,14 @@ function Mybookings() {
   console.log("booked", getData);
 
   const { id } = useParams();
+
+  useEffect(() => {
+    let id = setTimeout(() => {
+      setMessage("");
+    }, 2000);
+
+    return () => clearTimeout(id);
+  });
 
   useEffect(() => {
     getMoviesById(id).then((data) => setMovie(data));
@@ -68,9 +87,27 @@ function Mybookings() {
     };
     bookSeats(data).then((data) => console.log("data sent", data));
   };
+
+  const handleModal = () => {
+    if (selectedSeats.length === 0) {
+      setMessage("Select Seats");
+    } else {
+      setModal(true);
+    }
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
   return (
     <div className="bookings">
       <Navbar />
+      {message && (
+        <div className="message">
+          <p>{message}</p>
+        </div>
+      )}
       <div className="bookings-container">
         <button className="bookings-back-button">← Back to Movies</button>
         <h1 className="bookings-headings">{movie.title}</h1>
@@ -183,10 +220,58 @@ function Mybookings() {
             </div>
           </div>
 
-          <button className="booking-confirm" onClick={confirmBooking}>
+          <button className="booking-confirm" onClick={handleModal}>
             Confirm Booking
           </button>
         </div>
+        {modal && (
+          <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2 className="modal-title">Confirm you Booking</h2>
+                <p className="modal-description">
+                  Please review your booking details before confirming.
+                </p>
+              </div>
+              <div className="modal-body">
+                <div className="modal-detail-row">
+                  <p className="detail-label">Name:</p>
+                  <p className="detail-value">{userName}</p>
+                </div>
+                <div className="modal-detail-row">
+                  <p className="detail-label">Movie Name:</p>
+                  <p className="detail-value">{movie.title}</p>
+                </div>
+                <div className="modal-detail-row">
+                  <p className="detail-label">Showtime:</p>
+                  <p className="detail-value">{showtime}</p>
+                </div>
+                <div className="modal-detail-row">
+                  <p className="detail-label">Seats:</p>
+                  <p className="detail-value">{selectedSeats.join(",")}</p>
+                </div>
+                <div className="modal-detail-row modal-total">
+                  <p className="detail-label">Total Price:</p>
+                  <p className="detail-value-total">${price}.00</p>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="modal-button modal-button-cancel"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="modal-button modal-button-confirm"
+                  onClick={confirmBooking}
+                >
+                  Final Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

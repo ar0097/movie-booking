@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
