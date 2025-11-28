@@ -86,6 +86,9 @@ function Mybookings() {
       price: price,
     };
     bookSeats(data).then((data) => console.log("data sent", data));
+    setModal(false);
+    setMessage("Booked");
+    setSelectedSeats([]);
   };
 
   const handleModal = () => {
