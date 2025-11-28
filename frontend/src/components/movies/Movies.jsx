@@ -5,15 +5,35 @@ import { Link } from "react-router-dom";
 import { getMovies } from "../../api";
 function Movies() {
   const [movies, setMovies] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getMovies().then((data) => setMovies(data));
+    getMovies().then((data) => {
+      setMovies(data);
+      setFilterData(data);
+    });
   }, []);
+
+  useEffect(() => {
+    const filtered = filterData.filter((ele) =>
+      ele.title.toLowerCase().includes(searchTerm)
+    );
+    setMovies(filtered);
+  }, [filterData, searchTerm]);
   return (
     <div className="movies">
       <Navbar />
       <div className="movies-container">
-        <h1 className="movies-heading">Now Showing</h1>
+        <div className="search-movies">
+          <input
+            type="text"
+            placeholder="Search movies..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
         <div className="movies-cards">
           {movies.map((ele, i) => (
             <div className="movies-card">
